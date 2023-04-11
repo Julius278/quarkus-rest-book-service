@@ -24,9 +24,8 @@ public class BookResource {
 
     @Path("/world")
     @GET
-    public Book helloWorldBook() {
-        Book book = new Book(12, "hello", "world", "sci-fi", 2012);
-        return book;
+    public Book getExampleHelloWorldBook() {
+        return new Book(12, "hello", "world", "sci-fi", 2012);
     }
 
     @GET
