@@ -2,6 +2,7 @@ package org.julius.quarkus.starting;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -14,6 +15,9 @@ import java.util.Optional;
 @Path("/api/books")
 @Produces(MediaType.APPLICATION_JSON)
 public class BookResource {
+
+    @Inject
+    private BookRepository bookRepository;
 
     @Path("/plain")
     @GET
@@ -30,11 +34,7 @@ public class BookResource {
 
     @GET
     public List<Book> getAllBooks() {
-        return List.of(
-                new Book(12, "hello", "world", "sci-fi", 2012),
-                new Book(13, "hello", "world2", "sci-fi", 2013),
-                new Book(14, "hello", "world3", "sci-fi", 2014)
-        );
+        return bookRepository.getAllBooks();
     }
 
     @GET
