@@ -17,4 +17,14 @@ public class Book {
         this.yearOfPublication = yearOfPublication;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", genre='" + genre + '\'' +
+                ", yearOfPublication=" + yearOfPublication +
+                '}';
+    }
 }
