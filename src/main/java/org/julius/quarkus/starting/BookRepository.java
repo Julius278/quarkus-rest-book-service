@@ -1,7 +1,9 @@
 package org.julius.quarkus.starting;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.ws.rs.PathParam;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class BookRepository {
@@ -13,5 +15,7 @@ public class BookRepository {
         );
     }
 
-
+    public Optional<Book> getBookById(int id) {
+        return getAllBooks().stream().filter(book -> book.getId() == id).findFirst();
+    }
 }

@@ -47,6 +47,6 @@ public class BookResource {
     @GET
     @Path("/{id}")
     public Optional<Book> getBookById(@PathParam("id") int id) {
-        return getAllBooks().stream().filter(book -> book.getId() == id).findFirst();
+        return bookRepository.getBookById(id);
     }
 }
