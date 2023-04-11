@@ -26,7 +26,6 @@ public class BookResource {
     @GET
     public Book helloWorldBook() {
         Book book = new Book(12, "hello", "world", "sci-fi", 2012);
-        System.out.println(book.toString());
         return book;
     }
 
