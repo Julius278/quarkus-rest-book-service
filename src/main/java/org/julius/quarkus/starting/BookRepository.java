@@ -9,9 +9,10 @@ import java.util.Optional;
 public class BookRepository {
     public List<Book> getAllBooks() {
         return List.of(
-                new Book(12, "hello", "world", "sci-fi", 2012),
-                new Book(13, "hello", "world2", "sci-fi", 2013),
-                new Book(14, "hello", "world3", "sci-fi", 2014)
+                new Book(1, "Java ist auch eine Insel", "Christian Ullenboom", "IT", 2003),
+                new Book(2, "Modern Java in Action", "Raoul-Gabriel Urma, Mario Fusco, Alan Mycroft", "IT", 2017),
+                new Book(3, "Beginning Quarkus Framework", "Tayo Koleoso", "IT", 2020),
+                new Book(4, "Der Erbe der Jedi-Ritter", "Kevin Hearne", "sci-fi", 2015)
         );
     }
 
