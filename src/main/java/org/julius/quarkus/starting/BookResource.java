@@ -10,7 +10,7 @@ import java.util.List;
 
 @RegisterForReflection
 @Path("/api/books")
-@Produces(MediaType.TEXT_PLAIN)
+@Produces(MediaType.APPLICATION_JSON)
 public class BookResource {
 
     @Path("/plain")
