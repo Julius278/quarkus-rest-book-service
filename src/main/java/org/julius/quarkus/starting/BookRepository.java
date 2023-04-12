@@ -9,7 +9,7 @@ import java.util.Optional;
 @ApplicationScoped
 public class BookRepository {
 
-    @ConfigProperty(name = "books.genre")
+    @ConfigProperty(name = "books.genre", defaultValue = "fantasy")
     private String defaultGenre;
 
     public List<Book> getAllBooks() {
