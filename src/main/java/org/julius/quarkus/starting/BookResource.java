@@ -1,6 +1,7 @@
 package org.julius.quarkus.starting;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -19,6 +20,9 @@ public class BookResource {
     @Inject
     private BookRepository bookRepository;
 
+    @Inject
+    private Logger logger;
+
     @Path("/plain")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -29,11 +33,13 @@ public class BookResource {
     @Path("/world")
     @GET
     public Book getExampleHelloWorldBook() {
+        logger.info("getExampleHelloWorldBook");
         return new Book(12, "hello", "world", "sci-fi", 2012);
     }
 
     @GET
     public List<Book> getAllBooks() {
+        logger.info("getAllBooks");
         return bookRepository.getAllBooks();
     }
 
