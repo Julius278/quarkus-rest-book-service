@@ -42,8 +42,6 @@ jobs:
         uses: actions/checkout@master
       - name: Build native executable and upload it as an artifact
         uses: maxday/quarkus-native-build-docker-action@1
-          outputName: ffff
-          dockerfilePath: Dockerfile
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     #- name: Update dependency graph
