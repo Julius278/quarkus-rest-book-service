@@ -42,3 +42,6 @@ nb-configuration.xml
 
 # Plugin directory
 /.quarkus/cli/plugins/
+
+#testing code
+/src/main/java/org/julius/quarkus/starting/poi/
