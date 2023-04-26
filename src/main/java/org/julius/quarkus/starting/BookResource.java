@@ -17,10 +17,10 @@ import java.util.Optional;
 public class BookResource {
 
     @Inject
-    private BookRepository bookRepository;
+    BookRepository bookRepository;
 
     @Inject
-    private Logger logger;
+    Logger logger;
 
     @Path("/world")
     @GET
@@ -43,7 +43,7 @@ public class BookResource {
     public Response createBook(@FormParam("title") String title, @FormParam("author") String author, @FormParam("yearOfPublication") int yearOfPublication, @FormParam("genre") String genre) {
         Book book = new Book();
         book.setTitle(title);
-        book.setIsbn13("will set that via numbers microservice");
+        book.setIsbn13("13- will set that via numbers microservice");
         book.setAuthor(author);
         book.setYearOfPublication(yearOfPublication);
         book.setGenre(genre);

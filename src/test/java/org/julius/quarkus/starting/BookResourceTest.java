@@ -12,17 +12,6 @@ import static org.hamcrest.Matchers.hasKey;
 
 @QuarkusTest
 public class BookResourceTest {
-
-    @Test
-    public void testHelloEndpoint() {
-        given().accept(MediaType.TEXT_PLAIN)
-          .when()
-                .get("/api/books/plain")
-          .then()
-             .statusCode(200)
-             .body(is("Hello RESTEasy"));
-    }
-
     @Test
     public void testExampleHelloWorldEndpoint(){
         given().accept(MediaType.APPLICATION_JSON)
@@ -34,8 +23,8 @@ public class BookResourceTest {
                 .body("genre", is("sci-fi"))
                 .body("title", is("hello"))
                 .body("isbn13", startsWith("13-"))
-                .body("yearOfPublication", is(2012));
-                //.body(hasKey("creationDate"));
+                .body("yearOfPublication", is(2012))
+                .body("$", hasKey("creationDate")); //creationDate ist present
     }
 
     @Test
@@ -77,5 +66,28 @@ public class BookResourceTest {
                     .body("yearOfPublication", is(2020))
                     .body("isbn13", startsWith("13-"))
                     .body("genre", is("IT"));
+    }
+
+    @Test
+    void createBook() {
+        String title = "Test123";
+        String author = "George Lucas";
+        int yearOfPublication = 2012;
+        String genre = "crime";
+
+        given()
+                .formParam("title", title)
+                .formParam("author", author)
+                .formParam("yearOfPublication", yearOfPublication)
+                .formParam("genre", genre)
+        .when()
+                .post("/api/books")
+        .then()
+                .statusCode(201)
+                .body("genre", is(genre))
+                .body("title", is(title))
+                .body("author", is(author))
+                .body("yearOfPublication", is(yearOfPublication))
+                .body("isbn13", startsWith("13-"));
     }
 }
