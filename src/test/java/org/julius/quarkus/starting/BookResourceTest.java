@@ -7,6 +7,8 @@ import javax.ws.rs.core.MediaType;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.Matchers.hasKey;
 
 @QuarkusTest
 public class BookResourceTest {
@@ -31,7 +33,9 @@ public class BookResourceTest {
                 .body("author", is("world"))
                 .body("genre", is("sci-fi"))
                 .body("title", is("hello"))
+                .body("isbn13", startsWith("13-"))
                 .body("yearOfPublication", is(2012));
+                //.body(hasKey("creationDate"));
     }
 
     @Test
@@ -71,6 +75,7 @@ public class BookResourceTest {
                     .body("author", is("Tayo Koleoso"))
                     .body("title", is("Beginning Quarkus Framework"))
                     .body("yearOfPublication", is(2020))
+                    .body("isbn13", startsWith("13-"))
                     .body("genre", is("IT"));
     }
 }

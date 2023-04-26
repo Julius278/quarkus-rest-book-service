@@ -1,18 +1,14 @@
 package org.julius.quarkus.starting;
 
-import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
 
-@RegisterForReflection
 @Path("/api/books")
 @Produces(MediaType.APPLICATION_JSON)
 public class BookResource {
@@ -34,13 +30,28 @@ public class BookResource {
     @GET
     public Book getExampleHelloWorldBook() {
         logger.info("getExampleHelloWorldBook");
-        return new Book(12, "hello", "world", "sci-fi", 2012);
+        return new Book(12, "13-000000000", "hello", "world", "sci-fi", 2012);
     }
 
     @GET
     public List<Book> getAllBooks() {
         logger.info("getAllBooks");
         return bookRepository.getAllBooks();
+    }
+
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON, MediaType.MEDIA_TYPE_WILDCARD})
+    public Response createBook(@FormParam("title") String title, @FormParam("author") String author, @FormParam("yearOfPublication") int yearOfPublication, @FormParam("genre") String genre) {
+        Book book = new Book();
+        book.setTitle(title);
+        book.setIsbn13("will set that via numbers microservice");
+        book.setAuthor(author);
+        book.setYearOfPublication(yearOfPublication);
+        book.setGenre(genre);
+
+        logger.info("new Book created, id: " + book.getId());
+
+        return Response.status(201).entity(book).build();
     }
 
     @GET
