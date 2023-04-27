@@ -2,7 +2,9 @@ package org.julius.quarkus.starting;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
+import org.julius.quarkus.starting.numbers.NumberProxy;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -16,6 +18,9 @@ import java.util.Optional;
 @Tag(name = "Book REST Service")
 public class BookResource {
 
+    @RestClient
+    NumberProxy numberProxy;
+
     @Inject
     BookRepository bookRepository;
 
@@ -27,7 +32,8 @@ public class BookResource {
     @Operation(summary = "getExampleHelloWorldBook", description = "returns a specific 'hello world' test book with all parameters")
     public Book getExampleHelloWorldBook() {
         logger.info("getExampleHelloWorldBook");
-        return new Book(12, "13-000000000", "hello", "world", "sci-fi", 2012);
+        String isbn13 = numberProxy.generateRandomIsbnThirteen().getIsbn13();
+        return new Book(12, isbn13, "hello", "world", "sci-fi", 2012);
     }
 
     @GET
@@ -43,7 +49,7 @@ public class BookResource {
     public Response createBook(@FormParam("title") String title, @FormParam("author") String author, @FormParam("yearOfPublication") int yearOfPublication, @FormParam("genre") String genre) {
         Book book = new Book();
         book.setTitle(title);
-        book.setIsbn13("13- will set that via numbers microservice");
+        book.setIsbn13(numberProxy.generateRandomIsbnThirteen().getIsbn13());
         book.setAuthor(author);
         book.setYearOfPublication(yearOfPublication);
         book.setGenre(genre);
