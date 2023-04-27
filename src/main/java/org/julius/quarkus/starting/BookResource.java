@@ -1,5 +1,7 @@
 package org.julius.quarkus.starting;
 
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -27,13 +29,21 @@ public class BookResource {
     @Inject
     Logger logger;
 
+    @Retry(delay = 2000, maxRetries = 3)
+    @Fallback(fallbackMethod = "getExampleHelloWorldBookFallback")
     @Path("/world")
     @GET
     @Operation(summary = "getExampleHelloWorldBook", description = "returns a specific 'hello world' test book with all parameters")
-    public Book getExampleHelloWorldBook() {
+    public Response getExampleHelloWorldBook() {
         logger.info("getExampleHelloWorldBook");
         String isbn13 = numberProxy.generateRandomIsbnThirteen().getIsbn13();
-        return new Book(12, isbn13, "hello", "world", "sci-fi", 2012);
+        return Response.status(200).entity(new Book(12, isbn13, "hello", "world", "sci-fi", 2012)).build();
+    }
+
+    public Response getExampleHelloWorldBookFallback() {
+        logger.warn("getExampleHelloWorldBookFallback, fallback ISBN number set");
+        String isbn13 = "13-fallback";
+        return Response.status(206).entity(new Book(12, isbn13, "hello", "world", "sci-fi", 2012)).build();
     }
 
     @GET
@@ -43,6 +53,7 @@ public class BookResource {
         return bookRepository.getAllBooks();
     }
 
+    @Fallback(fallbackMethod = "createBookFallback")
     @POST
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON, MediaType.MEDIA_TYPE_WILDCARD})
     @Operation(summary = "createBook", description = "endpoint to create a new book")
@@ -54,9 +65,23 @@ public class BookResource {
         book.setYearOfPublication(yearOfPublication);
         book.setGenre(genre);
 
-        logger.info("new Book created, id: " + book.getId());
+        logger.info("new Book created with id: " + book.getId());
 
         return Response.status(201).entity(book).build();
+    }
+
+    public Response createBookFallback(@FormParam("title") String title, @FormParam("author") String author, @FormParam("yearOfPublication") int yearOfPublication, @FormParam("genre") String genre) {
+        Book book = new Book();
+        book.setTitle(title);
+        book.setIsbn13("13-fallback will be set later");
+        book.setAuthor(author);
+        book.setYearOfPublication(yearOfPublication);
+        book.setGenre(genre);
+
+        logger.warn("numbers service did not respond, fallback isbn number set");
+        logger.warn("new Book created, id: " + book.getId());
+
+        return Response.status(206).entity(book).build();
     }
 
     @GET
