@@ -1,8 +1,6 @@
 package org.julius.quarkus.starting;
 
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.internal.http.Status;
-import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.MediaType;
@@ -20,7 +18,7 @@ public class BookResourceTest {
                 .when()
                 .get("/api/books/world")
                 .then()
-                .statusCode(Status.SUCCESS.ordinal())
+                .statusCode(200)
                 .body("author", is("world"))
                 .body("genre", is("sci-fi"))
                 .body("title", is("hello"))
