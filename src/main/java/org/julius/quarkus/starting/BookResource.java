@@ -45,7 +45,7 @@ public class BookResource {
         String isbn13 = "13-fallback";
 
         //TODO status 206 fails in test
-        return Response.status(201).entity(new Book(12, isbn13, "hello", "world", "sci-fi", 2012)).build();
+        return Response.status(200).entity(new Book(12, isbn13, "hello", "world", "sci-fi", 2012)).build();
     }
 
     @GET
